@@ -48,6 +48,16 @@ deployment target:
    of the application, for some common component, e.g. DB, API-Gateway or Messaging etc.
    you can copy a sample nix file from ~site/local/phase/test~ directory as reference.
 
+* How to use it
+Usually, this module will be used as a dependency of another module [[https://github.com/hughjfchen/deploy-config][deploy-config]], so you will import
+this module into your ~release.nix~ file, and pass it to the ~deploy-config~ module. Refer to following
+code:
+#+begin_src nix
+myEnv = import ./site/yourSite/phase/yourPhase/env.nix
+myConfig = import ./site/yourSite/phase/yourPhase/config.nix {env = myEnv;}
+#+end_src
+
+
 * Todos
 Following enhancement may be implemented in the future release for this module:
 - more options for deployment target

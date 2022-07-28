@@ -1,0 +1,22 @@
+#+title: Readme
+
+* What is this
+This is a NixOS module which evalues to an environment setting for the deployment target
+based on the specified directory structure.
+
+* Options
+This module defines following options to describe the deployent target:
+
+| option      | type | default | descriptio                                                                             |
+|-------------+------+---------+----------------------------------------------------------------------------------------|
+| hostName    | str  | null    | hostName                                                                               |
+| dnsName     | str  | null    | DNS Name                                                                               |
+| ipAddress   |      |         |                                                                                        |
+| processUser | str  | null    | user name the process under which the process will run                                 |
+| isSystemd   | bool | true    | if the service will run as a systemd service                                           |
+| runDir      | str  | null    | the directory under which the intermedia files generated during runtime will be placed |
+| dataDir     | str  | null    | the directory under which the data files will be placed                                |
+|-------------+------+---------+----------------------------------------------------------------------------------------|
+
+* Directory Structure
+A directory structure is used to describe the deployment target.

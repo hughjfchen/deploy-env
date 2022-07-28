@@ -3,7 +3,7 @@
 {
   imports = [ ];
 
-  options = {
+  options = rec {
     hostName = lib.mkOption {
       type = lib.types.str;
       default = null;
@@ -46,7 +46,7 @@
     };
     runDir = lib.mkOption {
       type = lib.types.str;
-      default = "/var/myuser/run";
+      default = "/var/${processUser}/run";
       example = "/var/myuser/run";
       description = ''
         The directory the runtime intermedia files should be put under on the target host.
@@ -54,7 +54,7 @@
     };
     dataDir = lib.mkOption {
       type = lib.types.str;
-      default = "/var/myuser/data";
+      default = "/var/${processUser}/data";
       example = "/var/myuser/data";
       description = ''
         The directory the data files should be put under on the target host.

@@ -1,7 +1,7 @@
 #+title: Readme
 
 * Notice
-This is one of my ~releasec framework based on nix~ which contains following:
+This is one of my ~release framework based on nix~ which contains following:
 - [[https://github.com/hughjfchen/deploy-env][deploy-env(that is this repo)]]
 - [[https://github.com/hughjfchen/deploy-config][deploy-config]]
 - [[https://github.com/hughjfchen/deploy-packer][deploy-packer]]

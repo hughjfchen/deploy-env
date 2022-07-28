@@ -4,6 +4,11 @@
 This is a NixOS module which evalues to an environment setting for the deployment target
 based on the specified directory structure.
 
+* What is this for
+This module is the most foundamental building block for the deployment solution based on
+nix. It will provide the basic settings of the environment of the deployment target machine.
+It acts as the base dependency for the deployment config and the deployment packer.
+
 * Options
 This module defines following options to describe the deployent target:
 
@@ -11,12 +16,32 @@ This module defines following options to describe the deployent target:
 |-------------+------+---------+----------------------------------------------------------------------------------------|
 | hostName    | str  | null    | hostName                                                                               |
 | dnsName     | str  | null    | DNS Name                                                                               |
-| ipAddress   |      |         |                                                                                        |
+| ipAddress   | str  | null    | the IP address of the deployment target machine                                        |
 | processUser | str  | null    | user name the process under which the process will run                                 |
 | isSystemd   | bool | true    | if the service will run as a systemd service                                           |
 | runDir      | str  | null    | the directory under which the intermedia files generated during runtime will be placed |
 | dataDir     | str  | null    | the directory under which the data files will be placed                                |
 |-------------+------+---------+----------------------------------------------------------------------------------------|
 
+These options are declared in the `env.nix` file under the top level directory.
+
 * Directory Structure
-A directory structure is used to describe the deployment target.
+A directory structure is used to describe the deployment target. It composes with tow parts,
+the first part is the `site`, the second part is the `phase`, which could be explained
+in more detail as following:
+- site This specify the place where the application will be deployed to
+- phase This specify the target environment, it could be `test`, `stage` or `production`
+
+* Add a new deployment target
+With the above directory structure in mind, do the following if you want to add a new
+deployment target:
+1. make a directory under the `site` which specifiy the target place
+2. make a directory `phase` under the directory created in step 1
+3. make a directory `test`, `stage` and `production` under the directory created in step 2
+4. under each directory created in step 3, add a nix module definition file for each component
+   of the application, e.g. DB, API-Gateway or Messaging etc.
+
+* Todos
+Following enhancement may be implemented in the future release for this module:
+- more options for deployment target
+- more setting samples for common component of application

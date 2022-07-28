@@ -35,8 +35,8 @@ These options are declared in the `env.nix` file under the top level directory.
 A directory structure is used to describe the deployment target. It composes with tow parts,
 the first part is the ~site~, the second part is the ~phase~, which could be explained
 in more detail as following:
-- site This specify the place where the application will be deployed to
-- phase This specify the target environment, it could be ~test~, ~stage~ or ~production~
+- site :: This specify the place where the application will be deployed to
+- phase :: This specify the target environment, it could be ~test~, ~stage~ or ~production~
 
 * Add a new deployment target
 With the above directory structure in mind, do the following if you want to add a new

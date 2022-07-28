@@ -2,9 +2,9 @@
 
 * Notice
 This is one of my ~releasec framework based on nix~ which contains following:
-- [[https://github.com/hughjfchen/nix-env]][~nix-env~(that is this repo)]]
-- [[https://github.com/hughjfchen/nix-config]][~nix-config~]]
-- [[https://github.com/hughjfchen/nix-packer[~nix-packer~]]]
+- [[https://github.com/hughjfchen/nix-env][~nix-env~(that is this repo)]]
+- [[https://github.com/hughjfchen/nix-config][~nix-config~]]
+- [[https://github.com/hughjfchen/nix-packer][~nix-packer~]]
 
 * What is this
 This is a NixOS module which evalues to an environment setting for the deployment target

@@ -15,8 +15,7 @@ in let
 
   envBuilder = lib.evalModules { modules = builtinModules ++ modules; };
 
-  builtinModules = [ argsModule ] ++ import ../../../../module-list.nix
-    ++ import ./module-list.nix;
+  builtinModules = [ argsModule ] ++ import ./module-list.nix;
 
   argsModule = {
     _file = ./env-builder.nix;

@@ -53,8 +53,21 @@ Usually, this module will be used as a dependency of another module [[https://gi
 this module into your ~release.nix~ file, and pass it to the ~deploy-config~ module. Refer to following
 code:
 #+begin_src nix
-myEnv = import ./site/yourSite/phase/yourPhase/env.nix
-myConfig = import ./site/yourSite/phase/yourPhase/config.nix {env = myEnv;}
+myEnv = import (builtins.fetchGit {url = "https://github.com/hughjfchen/deploy-env"; }) { inherit pkgs; modules = [
+                                                                                ./site/local/phase/test/db.nix
+                                                                                ./site/local/phase/test/db-gw.nix
+                                                                                ./site/local/phase/test/api-gw.nix
+                                                                                ./site/local/phase/test/messaging.nix
+                                                                                ./site/local/phase/test/runner.nix
+                                                                                ];}
+myConfig = import (builtins.fetchGit {url = "https://github.com/hughjfchen/deploy-config"; }) { inherit pkgs; modules = [
+                                                                                ./site/local/phase/test/db.nix
+                                                                                ./site/local/phase/test/db-gw.nix
+                                                                                ./site/local/phase/test/api-gw.nix
+                                                                                ./site/local/phase/test/messaging.nix
+                                                                                ./site/local/phase/test/runner.nix
+                                                                                ];
+                                                                                env = myEnv;}
 #+end_src
 
 

@@ -18,18 +18,18 @@ It acts as the base dependency for the deployment config and the deployment pack
 * Options
 This module defines following options to describe the deployent target:
 
-| option           | type | default                  | descriptio                                                                             |
-|------------------+------+--------------------------+----------------------------------------------------------------------------------------|
-| hostName         | str  | null                     | hostName                                                                               |
-| dnsName          | str  | null                     | DNS Name                                                                               |
-| ipAddress        | str  | null                     | the IP address of the deployment target machine                                        |
-| processUser      | str  | null                     | user name the process under which the process will run                                 |
-| isSystemdService | bool | true                     | if the application will run as a systemd service                                       |
-| runDir           | str  | /var/${processUser}/run  | the directory under which the intermedia files generated during runtime will be placed |
-| dataDir          | str  | /var/${processUser}/data | the directory under which the data files will be placed                                |
-|------------------+------+--------------------------+----------------------------------------------------------------------------------------|
+| option           | type        | default                         | descriptio                                                                             |
+|------------------+-------------+---------------------------------+----------------------------------------------------------------------------------------|
+| hostName         | nonEmptyStr | N/A                             | hostName                                                                               |
+| dnsName          | strMatching | N/A                             | DNS Name                                                                               |
+| ipAddress        | strMatching | N/A                             | the IP address of the deployment target machine                                        |
+| processUser      | nonEmptyStr | N/A                             | user name the process under which the process will run                                 |
+| isSystemdService | bool        | true                            | if the application will run as a systemd service                                       |
+| runDir           | path        | /var/${config.processUser}/run  | the directory under which the intermedia files generated during runtime will be placed |
+| dataDir          | path        | /var/${config.processUser}/data | the directory under which the data files will be placed                                |
+|------------------+-------------+---------------------------------+----------------------------------------------------------------------------------------|
 
-These options are declared in the `env.nix` file under the top level directory.
+These options are declared in the ~env.nix~ file under the top level directory.
 
 * Directory Structure
 A directory structure is used to describe the deployment target. It composes with tow parts,
@@ -44,34 +44,39 @@ deployment target:
 1. make a directory under the ~site~ which specifiy the target place
 2. make a directory ~phase~ under the directory created in step 1
 3. make a directory ~test~, ~stage~ and ~production~ under the directory created in step 2
-4. under each directory created in step 3, add a nix module definition file for each component
-   of the application, for some common component, e.g. DB, API-Gateway or Messaging etc.
-   you can copy a sample nix file from ~site/local/phase/test~ directory as reference.
+4. under each directory created in step 3, add a nix definition file for each deployment
+   target machine where your component of the application will deploy to, for some common
+   component, e.g. DB, API-Gateway or Messaging etc. you can copy a sample nix file from
+   ~site/local/phase/test~ directory as reference.
 
 * How to use it
 Usually, this module will be used as a dependency of another module [[https://github.com/hughjfchen/deploy-config][deploy-config]], so you will import
 this module into your ~release.nix~ file, and pass it to the ~deploy-config~ module. Refer to following
 code:
 #+begin_src nix
-myEnv = import (builtins.fetchGit {url = "https://github.com/hughjfchen/deploy-env"; }) { inherit pkgs; modules = [
-                                                                                ./site/local/phase/test/db.nix
-                                                                                ./site/local/phase/test/db-gw.nix
-                                                                                ./site/local/phase/test/api-gw.nix
-                                                                                ./site/local/phase/test/messaging.nix
-                                                                                ./site/local/phase/test/runner.nix
-                                                                                ];}
-myConfig = import (builtins.fetchGit {url = "https://github.com/hughjfchen/deploy-config"; }) { inherit pkgs; modules = [
-                                                                                ./site/local/phase/test/db.nix
-                                                                                ./site/local/phase/test/db-gw.nix
-                                                                                ./site/local/phase/test/api-gw.nix
-                                                                                ./site/local/phase/test/messaging.nix
-                                                                                ./site/local/phase/test/runner.nix
-                                                                                ];
-                                                                                env = myEnv;}
+myEnv = import (builtins.fetchGit {url = "https://github.com/hughjfchen/deploy-env"; })
+  { inherit pkgs; modules = [
+                                ./site/local/phase/test/db.nix
+                                ./site/local/phase/test/db-gw.nix
+                                ./site/local/phase/test/api-gw.nix
+                                ./site/local/phase/test/messaging.nix
+                                ./site/local/phase/test/runner.nix
+                            ];
+  }
+myConfig = import (builtins.fetchGit {url = "https://github.com/hughjfchen/deploy-config"; })
+  { inherit pkgs; modules = [
+                                ./site/local/phase/test/db.nix
+                                ./site/local/phase/test/db-gw.nix
+                                ./site/local/phase/test/api-gw.nix
+                                ./site/local/phase/test/messaging.nix
+                                ./site/local/phase/test/runner.nix
+                            ];
+                            env = myEnv;
+  }
 #+end_src
 
 
 * Todos
 Following enhancement may be implemented in the future release for this module:
-- more options for deployment target
+- more options to describe the deployment target machine
 - more setting samples for common component of application

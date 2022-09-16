@@ -12,7 +12,8 @@
       '';
     };
     dnsName = lib.mkOption {
-      type = lib.types.strMatching "^([a-z0-9]+(-[a-z0-9]+)*.)+[a-z]{2,}$";
+      # type = lib.types.strMatching "^([a-z0-9]+(-[a-z0-9]+)*.)+[a-z]{2,}$";
+      type = lib.types.nonEmptyStr;
       example = "myhost.subdomain.com";
       description = ''
         The DNS name of the deploy target host.

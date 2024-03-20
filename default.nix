@@ -10,10 +10,13 @@ in let
     builtins.abort
     "The pkgs argument must be an attribute set or a path to an attribute set.";
 
-  inherit (pkgs);
   lib = pkgs.lib;
 
-  envBuilder = lib.evalModules { modules = builtinModules ++ modules; };
+  optionModule = lib.attrsets.mapAttrsToList (subModuleName: _: import ./option-spec.nix { inherit subModuleName; }) modules;
+
+  configModule = lib.attrsets.attrValues modules;
+
+  envBuilder = lib.evalModules { modules = builtinModules ++ optionModule ++ configModule; };
 
   builtinModules = [ argsModule ] ++ import ./module-list.nix;
 

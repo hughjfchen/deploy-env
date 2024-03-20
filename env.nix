@@ -45,7 +45,7 @@
     };
     runDir = lib.mkOption {
       type = lib.types.path;
-      default = "/var/${config.processUser}/run";
+      #default = "/var/${config.processUser}/run";
       example = "/var/myuser/run";
       description = ''
         The directory the runtime intermedia files should be put under on the target host.
@@ -53,7 +53,7 @@
     };
     dataDir = lib.mkOption {
       type = lib.types.path;
-      default = "/var/${config.processUser}/data";
+      #default = "/var/${config.processUser}/data";
       example = "/var/myuser/data";
       description = ''
         The directory the data files should be put under on the target host.

@@ -55,23 +55,25 @@ this module into your ~release.nix~ file, and pass it to the ~deploy-config~ mod
 code:
 #+begin_src nix
 myEnv = import (builtins.fetchGit {url = "https://github.com/hughjfchen/deploy-env"; })
-  { inherit pkgs; modules = [
-                                ./site/local/phase/test/db.nix
-                                ./site/local/phase/test/db-gw.nix
-                                ./site/local/phase/test/api-gw.nix
-                                ./site/local/phase/test/messaging.nix
-                                ./site/local/phase/test/runner.nix
-                            ];
+  { inherit pkgs;
+    modules =  {
+      db = ./site/local/phase/test/db.nix;
+      db-gw = ./site/local/phase/test/db-gw.nix;
+      api-gw = ./site/local/phase/test/api-gw.nix;
+      Messaging = ./site/local/phase/test/messaging.nix;
+      runner = ./site/local/phase/test/runner.nix;
+    };
   }
 myConfig = import (builtins.fetchGit {url = "https://github.com/hughjfchen/deploy-config"; })
-  { inherit pkgs; modules = [
-                                ./site/local/phase/test/db.nix
-                                ./site/local/phase/test/db-gw.nix
-                                ./site/local/phase/test/api-gw.nix
-                                ./site/local/phase/test/messaging.nix
-                                ./site/local/phase/test/runner.nix
-                            ];
-                            env = myEnv;
+  { inherit pkgs;
+    modules = [
+      ./site/local/phase/test/db.nix
+      ./site/local/phase/test/db-gw.nix
+      ./site/local/phase/test/api-gw.nix
+      ./site/local/phase/test/messaging.nix
+      ./site/local/phase/test/runner.nix
+      ];
+    env = myEnv;
   }
 #+end_src
 
